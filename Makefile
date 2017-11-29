@@ -33,4 +33,4 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp %.h
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJS) $(LIB)
+	rm -rf $(OBJS) $(LIB) benchmark build/benchmark.o
