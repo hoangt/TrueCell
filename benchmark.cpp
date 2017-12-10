@@ -58,13 +58,23 @@ void TestAlloc(const char* desp, uint32_t times, TC::SecBlockAlloc* alloc){
     for (uint32_t i = 0; i < (BLOCK_SIZE >> 2); i++)
         data.push_back(rand());
 
+    TC::SecBlock* newBlocks[times];
+    uint32_t nanoSec;
+
     TimeMeasure tm;
     tm.reset();
+
     for (uint32_t i = 0; i < times; i++){
-        TC::SecBlock* newBlock = alloc->AllocBlock(data);
-        alloc->FreeBlock(newBlock);
+        newBlocks[i] = alloc->AllocBlock(data);
     }
-    uint32_t nanoSec = tm.report();
+    nanoSec = tm.report();
+    std::cout << desp << ": \t" << nanoSec << std::endl;
+
+    tm.reset();
+    for (uint32_t i = 0; i < times; i++){
+        alloc->FreeBlock(newBlocks[i]);
+    }
+    nanoSec = tm.report();
     std::cout << desp << ": \t" << nanoSec << std::endl;
 }
 
@@ -97,8 +107,8 @@ void TestAccess(const char* desp, uint32_t times, TC::SecBlockAlloc *alloc){
 }
 
 int main(int argc, char *argv[]){
-    int AllocTimes = 1 << 20;
-    int AccessTimes = 1 << 20;
+    int AllocTimes = 200;
+    int AccessTimes = 200;
 
     if (argc > 1){
         if (argc > 3)
@@ -114,7 +124,7 @@ int main(int argc, char *argv[]){
     }
 
     TimeMeasure tm;
-    usleep(10);
+    usleep(100);
     uint32_t nanoSec = tm.report();
     std::cout << "10us = " << nanoSec << "ns" << std::endl;
 
