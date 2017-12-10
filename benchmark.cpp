@@ -107,8 +107,8 @@ void TestAccess(const char* desp, uint32_t times, TC::SecBlockAlloc *alloc){
 }
 
 int main(int argc, char *argv[]){
-    int AllocTimes = 200;
-    int AccessTimes = 200;
+    int AllocTimes = 20000;
+    int AccessTimes = 1<<20;
 
     if (argc > 1){
         if (argc > 3)
